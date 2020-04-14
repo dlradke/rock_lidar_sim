@@ -100,14 +100,14 @@ if __name__ == '__main__':
     # fileDir = os.getcwd()
     thesisGitDir = os.path.dirname(fileDir)
 
-    treeName = "7iterF3"
-    # for treeName in ["7iterF3"]:
+    # treeName = "7iterF3"
+    for treeName in ["7iterF1","7iterF2","7iterF3"]:
     nV = 1001
     nH = 901
     print("Importing Tree",treeName)
     # data = import_pickle(thesisGitDir + '/data/pickle/ray_tracing/tree_tri_export_3iter.data')
     # data = import_pickle(thesisGitDir + '/l-system/MUIR/data/tree_tri_export_'+treeName+'.data')
-    data = import_pickle('tree_tri_export_'+treeName+'.data')
+    data = import_pickle('data/tree_tri_export_'+treeName+'.data')
     treePts = data[0]
     # treePts = treePts * 0.25
     treeTris = data[1]
@@ -177,9 +177,9 @@ if __name__ == '__main__':
     leafPts = intersectionPts[treeTrisLabel[intersectionTris] == 'L']
 
     # dump pickle
-    dumpPath = str(nV)+'x'+str(nH)+'rays.data'
+    dumpPath = 'output/'+treeName'+'/'+str(nV)+'x'+str(nH)+'rays.data'
     dump_pickle([np.asarray(intersectionPts,dtype='float32'),treeTrisLabel[intersectionTris],origin1],dumpPath)
-    np.save('coords.npy',np.asarray(intersectionPts,dtype='float32'))
+    np.save('output/'+treeName'+'/coords.npy',np.asarray(intersectionPts,dtype='float32'))
 
 
     # from playsound import playsound
