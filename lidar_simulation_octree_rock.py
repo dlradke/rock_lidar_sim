@@ -102,88 +102,88 @@ if __name__ == '__main__':
 
     # treeName = "7iterF3"
     for treeName in ["7iterF1","7iterF2","7iterF3"]:
-    nV = 1001
-    nH = 901
-    print("Importing Tree",treeName)
-    # data = import_pickle(thesisGitDir + '/data/pickle/ray_tracing/tree_tri_export_3iter.data')
-    # data = import_pickle(thesisGitDir + '/l-system/MUIR/data/tree_tri_export_'+treeName+'.data')
-    data = import_pickle('data/tree_tri_export_'+treeName+'.data')
-    treePts = data[0]
-    # treePts = treePts * 0.25
-    treeTris = data[1]
-    treeTrisLabel = data[2]
+        nV = 10
+        nH = 9
+        print("Importing Tree",treeName)
+        # data = import_pickle(thesisGitDir + '/data/pickle/ray_tracing/tree_tri_export_3iter.data')
+        # data = import_pickle(thesisGitDir + '/l-system/MUIR/data/tree_tri_export_'+treeName+'.data')
+        data = import_pickle('data/tree_tri_export_'+treeName+'.data')
+        treePts = data[0]
+        # treePts = treePts * 0.25
+        treeTris = data[1]
+        treeTrisLabel = data[2]
 
 
-    # place origin of ray far enough back to hit entire trees
-    xymax = max(abs(treePts[:,0].min()),abs(treePts[:,0].max()),abs(treePts[:,1].min()),abs(treePts[:,1].max()))
-    # print(xymax)
-    zmax = treePts[:,2].max()
-    # print(zmax)
-    origX = xymax + ((zmax - 1.5)/np.sqrt(3))
-    # print(origX)
-    '''
-    # testing leaf then wood return
-    treePts = np.asarray([[-1,-10,-10],[-1,-5,10],[-1,0,-10],[-1,5,10],[-1,10,-10],
-                            [0,-10,-10],[0,-5,10],[0,0,-10],[0,5,10],[0,10,-10],
-                            [1,-10,-10],[1,-5,10],[1,0,-10],[1,5,10],[1,10,-10]],dtype=np.float64)
-    treeTris = np.asarray([[0,1,2],[1,2,3],[2,3,4],
-                            [5,6,7],[6,7,8],[7,8,9],
-                            [10,11,12],[11,12,13],[12,13,14]])
-    treeTrisLabel = np.asarray([['L'],['L'],['L'],['L'],['W'],['L'],['W'],['W'],['W']])
-    treeTrisLabel = treeTrisLabel.reshape(-1,)
-    '''
-    t = time.time()
-    print("Building Octree")
-    print("Number of triangle: " + str(len(treeTris)))
-    tree = ot.PyOctree(treePts,np.asarray(treeTris,dtype=np.int32))
+        # place origin of ray far enough back to hit entire trees
+        xymax = max(abs(treePts[:,0].min()),abs(treePts[:,0].max()),abs(treePts[:,1].min()),abs(treePts[:,1].max()))
+        # print(xymax)
+        zmax = treePts[:,2].max()
+        # print(zmax)
+        origX = xymax + ((zmax - 1.5)/np.sqrt(3))
+        # print(origX)
+        '''
+        # testing leaf then wood return
+        treePts = np.asarray([[-1,-10,-10],[-1,-5,10],[-1,0,-10],[-1,5,10],[-1,10,-10],
+                                [0,-10,-10],[0,-5,10],[0,0,-10],[0,5,10],[0,10,-10],
+                                [1,-10,-10],[1,-5,10],[1,0,-10],[1,5,10],[1,10,-10]],dtype=np.float64)
+        treeTris = np.asarray([[0,1,2],[1,2,3],[2,3,4],
+                                [5,6,7],[6,7,8],[7,8,9],
+                                [10,11,12],[11,12,13],[12,13,14]])
+        treeTrisLabel = np.asarray([['L'],['L'],['L'],['L'],['W'],['L'],['W'],['W'],['W']])
+        treeTrisLabel = treeTrisLabel.reshape(-1,)
+        '''
+        t = time.time()
+        print("Building Octree")
+        print("Number of triangle: " + str(len(treeTris)))
+        tree = ot.PyOctree(treePts,np.asarray(treeTris,dtype=np.int32))
 
-    origin1 = np.asarray([-origX,0,1.5])
-    origin2 = rotate3(origin1,120)
-    origin3 = rotate3(origin1,240)
-    print("Creating Rays")
-    print("Position of First Lidar Scanner: ",origin1)
-    rays1 = get_rays(40,60,45,45,nV,nH,'X')
-    rays2 = rotate3(rays1,120)
-    rays3 = rotate3(rays1,240)
-    rays = np.row_stack((rays1,rays2,rays3))
-    origins = np.row_stack((np.tile(origin1,(len(rays1),1)),np.tile(origin2,(len(rays2),1)),np.tile(origin3,(len(rays3),1))))
-    origRays = np.column_stack((origins,rays)).reshape(-1,2,3)
-
-
-
-    print("Number of rays: " + str(len(rays)))
-    # parallelize
-    cores = mp.cpu_count()
-    pool = mp.Pool(processes=cores)
-    print("Starting Ray Tracing")
+        origin1 = np.asarray([-origX,0,1.5])
+        origin2 = rotate3(origin1,120)
+        origin3 = rotate3(origin1,240)
+        print("Creating Rays")
+        print("Position of First Lidar Scanner: ",origin1)
+        rays1 = get_rays(40,60,45,45,nV,nH,'X')
+        rays2 = rotate3(rays1,120)
+        rays3 = rotate3(rays1,240)
+        rays = np.row_stack((rays1,rays2,rays3))
+        origins = np.row_stack((np.tile(origin1,(len(rays1),1)),np.tile(origin2,(len(rays2),1)),np.tile(origin3,(len(rays3),1))))
+        origRays = np.column_stack((origins,rays)).reshape(-1,2,3)
 
 
-    intersectionPts = pool.map(octree_ray_intersections,origRays)
 
-    print("Finished Ray Tracing")
-    elapsed = time.time() - t
-    print('Elapsed Time: ' + str(elapsed) + ' seconds')
-    print('Elapsed Time: ' + str(elapsed/60) + ' minutes')
-    pool.terminate()
-
-    # formate points and cooresponding triangles
-    intersectionPts = np.row_stack(intersectionPts)
-    intersectionTris = np.asarray(intersectionPts[:,1],dtype=np.int32)
-    intersectionPts = np.row_stack(intersectionPts[:,0])
-    print("Number of intersections: " + str(len(intersectionPts)))
-
-    # seperate into wood and leaf points
-    woodPts = intersectionPts[treeTrisLabel[intersectionTris] == 'W']
-    leafPts = intersectionPts[treeTrisLabel[intersectionTris] == 'L']
-
-    # dump pickle
-    dumpPath = 'output/'+treeName'+'/'+str(nV)+'x'+str(nH)+'rays.data'
-    dump_pickle([np.asarray(intersectionPts,dtype='float32'),treeTrisLabel[intersectionTris],origin1],dumpPath)
-    np.save('output/'+treeName'+'/coords.npy',np.asarray(intersectionPts,dtype='float32'))
+        print("Number of rays: " + str(len(rays)))
+        # parallelize
+        cores = mp.cpu_count()
+        pool = mp.Pool(processes=cores)
+        print("Starting Ray Tracing")
 
 
-    # from playsound import playsound
-    # playsound('/Users/dlradke/Documents/misc/sounds/sncf_2005.m4r')
+        intersectionPts = pool.map(octree_ray_intersections,origRays)
+
+        print("Finished Ray Tracing")
+        elapsed = time.time() - t
+        print('Elapsed Time: ' + str(elapsed) + ' seconds')
+        print('Elapsed Time: ' + str(elapsed/60) + ' minutes')
+        pool.terminate()
+
+        # formate points and cooresponding triangles
+        intersectionPts = np.row_stack(intersectionPts)
+        intersectionTris = np.asarray(intersectionPts[:,1],dtype=np.int32)
+        intersectionPts = np.row_stack(intersectionPts[:,0])
+        print("Number of intersections: " + str(len(intersectionPts)))
+
+        # seperate into wood and leaf points
+        woodPts = intersectionPts[treeTrisLabel[intersectionTris] == 'W']
+        leafPts = intersectionPts[treeTrisLabel[intersectionTris] == 'L']
+
+        # dump pickle
+        dumpPath = 'output/'+treeName+'/'+str(nV)+'x'+str(nH)+'rays.data'
+        dump_pickle([np.asarray(intersectionPts,dtype='float32'),treeTrisLabel[intersectionTris],origin1],dumpPath)
+        np.save('output/'+treeName+'/coords.npy',np.asarray(intersectionPts,dtype='float32'))
+
+
+    from playsound import playsound
+    playsound('/Users/dlradke/Documents/misc/sounds/sncf_2005.m4r')
     # plot
     # '''
     # from mayavi import mlab
