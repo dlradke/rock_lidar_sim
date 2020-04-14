@@ -102,8 +102,8 @@ if __name__ == '__main__':
 
     # treeName = "7iterF3"
     for treeName in ["7iterF1","7iterF2","7iterF3"]:
-        nV = 10
-        nH = 9
+        nV = 1001
+        nH = 901
         print("Importing Tree",treeName)
         # data = import_pickle(thesisGitDir + '/data/pickle/ray_tracing/tree_tri_export_3iter.data')
         # data = import_pickle(thesisGitDir + '/l-system/MUIR/data/tree_tri_export_'+treeName+'.data')
