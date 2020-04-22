@@ -318,6 +318,7 @@ def buildTree(treeName):
     # print(treeTris[0][0][2])
     # print(treeTris[0][1])
     ###### pickle triangles to load into ray tracer
+    # dump_pickle(exportTree,"data/tree_tri_export_7iter"+str(treeName)+".data")
     dump_pickle(exportTree,"data/tree_tri_export_"+str(iterations)+"iter"+str(treeName)+".data")
 
     # plt.show()
