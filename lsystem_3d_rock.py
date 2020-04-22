@@ -328,7 +328,7 @@ def buildTree(treeName):
 
 
 if __name__ == '__main__':
-    treeNames = ["D1","D2","D3"]
+    treeNames = ["D1","D2","D3","D4","D5"]
     cores = mp.cpu_count()
     pool = mp.Pool(processes=cores)
     pool.map(buildTree,treeNames)
