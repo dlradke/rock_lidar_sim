@@ -27,7 +27,7 @@ rules = {}
 
 # bush example from Figure 1.25
 global angleRange, lengthRange
-iterations = 6
+iterations = 3
 angleRange = [20,35]
 lengthRange = [0.05,0.15]
 startRadius = 0.475
