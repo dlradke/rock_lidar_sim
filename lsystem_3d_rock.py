@@ -29,7 +29,7 @@ rules = {}
 global angleRange, lengthRange
 iterations = 7
 angleRange = [20,35]
-lengthRange = [0.05,0.2]
+lengthRange = [0.05,0.17]
 startRadius = 0.5
 axiom = 'A'
 rules['A'] = "FF[&F['''^^{-f+f+f-|-f+f+f}]L!A]/////’[&F['''^^{-f+f+f-|-f+f+f}]L!A]/////’[&F['''^^{-f+f+f-|-f+f+f}]L!A]F///////’[F['''^^{-f+f+f-|-f+f+f}]L!A]"
