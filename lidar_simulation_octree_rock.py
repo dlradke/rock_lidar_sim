@@ -101,7 +101,7 @@ if __name__ == '__main__':
     thesisGitDir = os.path.dirname(fileDir)
 
     # treeName = "7iterF3"
-    for treeName in ["7iterD1","7iterD2","7iterD3","7iterD4","7iterD5"]:
+    for treeName in ["7iterVD1","7iterVD2","7iterVD3","7iterVD4","7iterVD5"]:
         nV = 1001
         nH = 901
         print("Importing Tree",treeName)

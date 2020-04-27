@@ -29,8 +29,8 @@ rules = {}
 global angleRange, lengthRange
 iterations = 7
 angleRange = [20,35]
-lengthRange = [0.05,0.15]
-startRadius = 0.475
+lengthRange = [0.05,0.2]
+startRadius = 0.5
 axiom = 'A'
 rules['A'] = "FF[&F['''^^{-f+f+f-|-f+f+f}]L!A]/////’[&F['''^^{-f+f+f-|-f+f+f}]L!A]/////’[&F['''^^{-f+f+f-|-f+f+f}]L!A]F///////’[F['''^^{-f+f+f-|-f+f+f}]L!A]"
 rules['F'] = "S/////F"
@@ -201,7 +201,7 @@ def drawTree(inputstring, oldpos, hlu, radius):
             length = get_rand_length()
             h = hlu[:,0]
             newpos = oldpos + (length * h)
-            radius = 0.97 * radius
+            radius = 0.985 * radius
             # mlab.plot3d([oldpos[0],newpos[0]],[oldpos[1],newpos[1]],[oldpos[2],newpos[2]])
             # ax.plot([oldpos[0],newpos[0]],[oldpos[1],newpos[1]],[oldpos[2],newpos[2]],'-',c='k',linewidth=2)
             # plt.pause(0.0000000000000000000000000001)
@@ -301,7 +301,7 @@ def buildTree(treeName):
     scipy.random.seed()
     # drawTree(createSystem(iterations, axiom), startpos)
     tree = (createSystem(iterations, axiom))
-    print (tree)
+    # print (tree)
     drawTree(tree, startpos, starthlu, startRadius)
     volumes = np.asarray((woodVol,woodVol1hr,woodVol10hr,woodVol100hr,woodVol1000hr))
     exportTree = [treePts,treeTris,treeTrisLabel,volumes]
@@ -319,8 +319,8 @@ def buildTree(treeName):
     # print(treeTris[0][1])
     ###### pickle triangles to load into ray tracer
     # dump_pickle(exportTree,"data/tree_tri_export_7iter"+str(treeName)+".data")
-    dump_pickle(exportTree,"data/tree_tri_export_"+str(iterations)+"iter"+str(treeName)+".data")
-    np.save('output/'+str(iterations)+'iter'+str(treeName)+'/'+str(iterations)+'iter'+str(treeName)+'_volumes.npy',volumes)
+    dump_pickle(exportTree,"data/tree_tri_export_"+str(iterations)+"iterV"+str(treeName)+".data")
+    np.save('output/'+str(iterations)+'iter'+str(treeName)+'/'+str(iterations)+'iterV'+str(treeName)+'_volumes.npy',volumes)
 
     # plt.show()
     # mlab.show()
