@@ -320,7 +320,7 @@ def buildTree(treeName):
     ###### pickle triangles to load into ray tracer
     # dump_pickle(exportTree,"data/tree_tri_export_7iter"+str(treeName)+".data")
     dump_pickle(exportTree,"data/tree_tri_export_"+str(iterations)+"iterV"+str(treeName)+".data")
-    np.save('output/'+str(iterations)+'iter'+str(treeName)+'/'+str(iterations)+'iterV'+str(treeName)+'_volumes.npy',volumes)
+    np.save('output/'+str(iterations)+'iterV'+str(treeName)+'/'+str(iterations)+'iterV'+str(treeName)+'_volumes.npy',volumes)
 
     # plt.show()
     # mlab.show()
