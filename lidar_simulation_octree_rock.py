@@ -102,45 +102,45 @@ if __name__ == '__main__':
 
     # treeName = "7iterF3"
     for treeName in ["7iterVD1","7iterVD2","7iterVD3","7iterVD4","7iterVD5"]:
+        print("Importing Tree",treeName)
+        # data = import_pickle(thesisGitDir + '/data/pickle/ray_tracing/tree_tri_export_3iter.data')
+        # data = import_pickle(thesisGitDir + '/l-system/MUIR/data/tree_tri_export_'+treeName+'.data')
+        data = import_pickle('data/tree_tri_export_'+treeName+'.data')
+        treePts = data[0]
+        # treePts = treePts * 0.25
+        treeTris = data[1]
+        treeTrisLabel = data[2]
+
+
+        # place origin of ray far enough back to hit entire trees
+        xymax = max(abs(treePts[:,0].min()),abs(treePts[:,0].max()),abs(treePts[:,1].min()),abs(treePts[:,1].max()))
+        # print(xymax)
+        zmax = treePts[:,2].max()
+        # print(zmax)
+        origX = xymax + ((zmax - 1.5)/np.sqrt(3))
+        # print(origX)
+        '''
+        # testing leaf then wood return
+        treePts = np.asarray([[-1,-10,-10],[-1,-5,10],[-1,0,-10],[-1,5,10],[-1,10,-10],
+                                [0,-10,-10],[0,-5,10],[0,0,-10],[0,5,10],[0,10,-10],
+                                [1,-10,-10],[1,-5,10],[1,0,-10],[1,5,10],[1,10,-10]],dtype=np.float64)
+        treeTris = np.asarray([[0,1,2],[1,2,3],[2,3,4],
+                                [5,6,7],[6,7,8],[7,8,9],
+                                [10,11,12],[11,12,13],[12,13,14]])
+        treeTrisLabel = np.asarray([['L'],['L'],['L'],['L'],['W'],['L'],['W'],['W'],['W']])
+        treeTrisLabel = treeTrisLabel.reshape(-1,)
+        '''
+        t = time.time()
+        print("Building Octree")
+        print("Number of triangle: " + str(len(treeTris)))
+        tree = ot.PyOctree(treePts,np.asarray(treeTris,dtype=np.int32))
+
         for i in ([[1,1001,901],[2,2001,1801]]):
             k = i[0]
             nV = i[1]
             nH = i[2]
             # nV = 2001
             # nH = 1801
-            print("Importing Tree",treeName)
-            # data = import_pickle(thesisGitDir + '/data/pickle/ray_tracing/tree_tri_export_3iter.data')
-            # data = import_pickle(thesisGitDir + '/l-system/MUIR/data/tree_tri_export_'+treeName+'.data')
-            data = import_pickle('data/tree_tri_export_'+treeName+'.data')
-            treePts = data[0]
-            # treePts = treePts * 0.25
-            treeTris = data[1]
-            treeTrisLabel = data[2]
-
-
-            # place origin of ray far enough back to hit entire trees
-            xymax = max(abs(treePts[:,0].min()),abs(treePts[:,0].max()),abs(treePts[:,1].min()),abs(treePts[:,1].max()))
-            # print(xymax)
-            zmax = treePts[:,2].max()
-            # print(zmax)
-            origX = xymax + ((zmax - 1.5)/np.sqrt(3))
-            # print(origX)
-            '''
-            # testing leaf then wood return
-            treePts = np.asarray([[-1,-10,-10],[-1,-5,10],[-1,0,-10],[-1,5,10],[-1,10,-10],
-                                    [0,-10,-10],[0,-5,10],[0,0,-10],[0,5,10],[0,10,-10],
-                                    [1,-10,-10],[1,-5,10],[1,0,-10],[1,5,10],[1,10,-10]],dtype=np.float64)
-            treeTris = np.asarray([[0,1,2],[1,2,3],[2,3,4],
-                                    [5,6,7],[6,7,8],[7,8,9],
-                                    [10,11,12],[11,12,13],[12,13,14]])
-            treeTrisLabel = np.asarray([['L'],['L'],['L'],['L'],['W'],['L'],['W'],['W'],['W']])
-            treeTrisLabel = treeTrisLabel.reshape(-1,)
-            '''
-            t = time.time()
-            print("Building Octree")
-            print("Number of triangle: " + str(len(treeTris)))
-            tree = ot.PyOctree(treePts,np.asarray(treeTris,dtype=np.int32))
-
             origin1 = np.asarray([-origX,0,1.5])
             origin2 = rotate3(origin1,120)
             origin3 = rotate3(origin1,240)
