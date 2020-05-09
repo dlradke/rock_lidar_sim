@@ -134,6 +134,9 @@ if __name__ == '__main__':
         print("Building Octree")
         print("Number of triangle: " + str(len(treeTris)))
         tree = ot.PyOctree(treePts,np.asarray(treeTris,dtype=np.int32))
+        elapsed = time.time() - t
+        print('Built OctTree in time: ' + str(elapsed) + ' seconds')
+        print('Built OctTree in time: ' + str(elapsed/60) + ' minutes')
 
         for i in ([[1,1001,901],[2,2001,1801]]):
             k = i[0]
@@ -160,14 +163,14 @@ if __name__ == '__main__':
             cores = mp.cpu_count()
             pool = mp.Pool(processes=cores)
             print("Starting Ray Tracing")
-
+            t = time.time()
 
             intersectionPts = pool.map(octree_ray_intersections,origRays)
 
             print("Finished Ray Tracing")
             elapsed = time.time() - t
-            print('Elapsed Time: ' + str(elapsed) + ' seconds')
-            print('Elapsed Time: ' + str(elapsed/60) + ' minutes')
+            print('Ray Tracing took: ' + str(elapsed) + ' seconds')
+            print('Ray Tracing took: ' + str(elapsed/60) + ' minutes')
             pool.terminate()
 
             # formate points and cooresponding triangles
