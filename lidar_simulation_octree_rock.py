@@ -200,6 +200,7 @@ if __name__ == '__main__':
 
 
 print("Scipted Finished at: ",time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+
     # from playsound import playsound
     # playsound('/Users/dlradke/Documents/misc/sounds/sncf_2005.m4r')
     # plot
@@ -220,4 +221,4 @@ print("Scipted Finished at: ",time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(
     plt.plot(woodPts[:,0],woodPts[:,1],woodPts[:,2],'o',color='r')
     plt.plot(leafPts[:,0],leafPts[:,1],leafPts[:,2],'o',color='g')
     plt.show()
-    # '''
+    '''
