@@ -93,6 +93,7 @@ def octree_ray_intersections(origRay):
 
 
 if __name__ == '__main__':
+    # print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     global tree, origin, rays, treePts, treeTris, treeTrisLabel
     # directory paths
     filePath = os.path.abspath(__file__)
@@ -102,6 +103,8 @@ if __name__ == '__main__':
 
     # treeName = "7iterF3"
     for treeName in ["7iterVD1"]:#,"7iterVD2","7iterVD3","7iterVD4","7iterVD5"]:
+        # print currant date/time
+        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
         print("Importing Tree",treeName)
         # data = import_pickle(thesisGitDir + '/data/pickle/ray_tracing/tree_tri_export_3iter.data')
         # data = import_pickle(thesisGitDir + '/l-system/MUIR/data/tree_tri_export_'+treeName+'.data')
@@ -135,8 +138,11 @@ if __name__ == '__main__':
         print("Number of triangle: " + str(len(treeTris)))
         tree = ot.PyOctree(treePts,np.asarray(treeTris,dtype=np.int32))
         elapsed = time.time() - t
+        # print currant date/time
+        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
         print('Built OctTree in time: ' + str(elapsed) + ' seconds')
         print('Built OctTree in time: ' + str(elapsed/60) + ' minutes')
+
 
         for i in ([[1,1001,901],[2,2001,1801]]):
             k = i[0]
@@ -163,11 +169,15 @@ if __name__ == '__main__':
             cores = mp.cpu_count()
             pool = mp.Pool(processes=cores)
             print("Starting Ray Tracing")
+            # print currant date/time
+            print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
             t = time.time()
 
             intersectionPts = pool.map(octree_ray_intersections,origRays)
 
             print("Finished Ray Tracing")
+            # print currant date/time
+            print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
             elapsed = time.time() - t
             print('Ray Tracing took: ' + str(elapsed) + ' seconds')
             print('Ray Tracing took: ' + str(elapsed/60) + ' minutes')
@@ -189,6 +199,7 @@ if __name__ == '__main__':
             np.save('output/'+treeName+'/'+str(k)+'k/coords.npy',np.asarray(intersectionPts,dtype='float32'))
 
 
+print("Scipted Finished at: ",time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     # from playsound import playsound
     # playsound('/Users/dlradke/Documents/misc/sounds/sncf_2005.m4r')
     # plot
