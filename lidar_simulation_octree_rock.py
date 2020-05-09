@@ -199,7 +199,7 @@ if __name__ == '__main__':
             np.save('output/'+treeName+'/'+str(k)+'k/coords.npy',np.asarray(intersectionPts,dtype='float32'))
 
 
-print("Scipted Finished at: ",time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+    print("Scipted Finished at: ",time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
 
     # from playsound import playsound
     # playsound('/Users/dlradke/Documents/misc/sounds/sncf_2005.m4r')
