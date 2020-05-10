@@ -102,7 +102,7 @@ if __name__ == '__main__':
     thesisGitDir = os.path.dirname(fileDir)
 
     # treeName = "7iterF3"
-    for treeName in ['''"7iterVD1",'''"7iterVD2","7iterVD3","7iterVD4","7iterVD5"]:
+    for treeName in ["7iterVD2","7iterVD3","7iterVD4","7iterVD5"]:
         # print currant date/time
         print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
         print("Importing Tree",treeName)
