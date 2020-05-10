@@ -144,7 +144,7 @@ if __name__ == '__main__':
         print('Built OctTree in time: ' + str(elapsed/60) + ' minutes')
 
 
-        for i in ([['half',501,451],[1,1001,901]]:#,[2,2001,1801]]):
+        for i in ([['half',501,451],[1,1001,901]]):#,[2,2001,1801]]):
             k = i[0]
             nV = i[1]
             nH = i[2]
