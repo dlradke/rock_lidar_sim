@@ -102,7 +102,7 @@ if __name__ == '__main__':
     thesisGitDir = os.path.dirname(fileDir)
 
     # treeName = "7iterF3"
-    for treeName in ["7iterVD1"]:#,"7iterVD2","7iterVD3","7iterVD4","7iterVD5"]:
+    for treeName in ['''"7iterVD1",'''"7iterVD2","7iterVD3","7iterVD4","7iterVD5"]:
         # print currant date/time
         print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
         print("Importing Tree",treeName)
@@ -144,7 +144,7 @@ if __name__ == '__main__':
         print('Built OctTree in time: ' + str(elapsed/60) + ' minutes')
 
 
-        for i in ([[1,1001,901],[2,2001,1801]]):
+        for i in ([['half',501,451],[1,1001,901]]:#,[2,2001,1801]]):
             k = i[0]
             nV = i[1]
             nH = i[2]
